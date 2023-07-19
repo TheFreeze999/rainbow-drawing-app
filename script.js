@@ -3,7 +3,8 @@ const ctx = cnv.getContext("2d");
 
 const MOUSE = {
 	pressed: false,
-	coords: [0, 0]
+	coords: [0, 0],
+	prevCoords: [0, 0],
 }
 
 let firstMouseMoveDone = false;
@@ -20,9 +21,11 @@ document.addEventListener("mousemove", e => {
 	y = y + 0.01 * (e.clientY - y);
 	MOUSE.coords = [x, y]; */
 	MOUSE.coords = [e.clientX, e.clientY];
+	draw()
 });
 
 document.addEventListener("mousedown", e => {
+	ctx.beginPath();
 	MOUSE.pressed = true;
 });
 document.addEventListener("mouseup", e => {
@@ -41,9 +44,16 @@ function draw() {
 		const [x, y] = MOUSE.coords;
 		console.log(x, y);
 		const size = 5;
-		ctx.clearRect(x - size / 2, y - size / 2, size, size);
+		ctx.lineWidth = size;
+		ctx.strokeStyle = 'white';
+		ctx.lineCap = 'round';
+		ctx.lineTo(x, y);
+		ctx.stroke();
+		console.log(ctx)
 	}
-	requestAnimationFrame(draw);
+
+	MOUSE.prevCoords = [...MOUSE.coords]
+	// requestAnimationFrame(draw);
 }
 
-draw();
+// draw();
