@@ -7,16 +7,25 @@ const MOUSE = {
 }
 
 document.addEventListener("mousemove", e => {
-	MOUSE.coords = [e.clientX, e.clientY];
-	draw()
+	onMouseMove(e);
 });
 
 document.addEventListener("mousedown", e => {
-	ctx.beginPath();
-	MOUSE.pressed = true;
+	onMouseDown();
 });
 document.addEventListener("mouseup", e => {
-	MOUSE.pressed = false;
+	onMouseUp();
+});
+
+document.addEventListener("touchmove", e => {
+	onMouseMove(e);
+});
+
+document.addEventListener("touchstart", e => {
+	onMouseDown();
+});
+document.addEventListener("touchend", e => {
+	onMouseUp();
 });
 
 const cnvBoundingClientRect = cnv.getBoundingClientRect();
@@ -25,6 +34,19 @@ cnv.setAttribute('height', cnvBoundingClientRect.height);
 
 
 ctx.fillRect(0, 0, cnv.width, cnv.height);
+
+function onMouseMove(e) {
+	MOUSE.coords = [e.clientX, e.clientY];
+	draw();
+}
+function onMouseDown() {
+	ctx.beginPath();
+	MOUSE.pressed = true;
+}
+function onMouseUp() {
+	MOUSE.pressed = false;
+}
+
 
 function draw() {
 	if (MOUSE.pressed) {
